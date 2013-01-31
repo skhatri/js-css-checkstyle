@@ -19,5 +19,4 @@ the file to your local maven repository thats cool too.
 
     //required for xslt transformation
     xsl('net.sf.saxon:Saxon-HE:9.4') {transitive=false}
-    xsl('xml-apis:xml-apis:2.0.2') {transitive=false}
 
