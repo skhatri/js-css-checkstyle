@@ -13,7 +13,7 @@ task jslintCheck << {
     }
     if (ant.properties['jslintfailed'] as int != 0) {
         println 'Warning:: JS Lint Error(s) exist.'
-        println "Checkstyle report available at \n${rootProject.buildDir}/jslint-checkstyle.xml"
+        println "Checkstyle report available at \n${rootProject.buildDir}/jslint-checkstyle.html"
         checkstyleReport("${rootProject.buildDir}/jslint-checkstyle.xml", 
 			"${rootProject.buildDir}/jslint-report.html")
     }
@@ -44,7 +44,7 @@ task csslintCheck << {
     }
     if (ant.properties['csslintfailed'] as int != 0) {
         println 'Warning:: CSS Lint Error(s) exist.'
-        println "Checkstyle report available at \n${rootProject.buildDir}/csslint-checkstyle.xml"
+        println "Checkstyle report available at \n${rootProject.buildDir}/csslint-checkstyle.html"
 	checkstyleReport("${rootProject.buildDir}/csslint-checkstyle.xml",
 			"${rootProject.buildDir}/csslint-checkstyle.html")
     }

@@ -18,6 +18,5 @@ dependencies {
     js ('jslint4java:jslint4java:2.0.3')
     css ('rhino:js:1.6R7')
     xsl('net.sf.saxon:Saxon-HE:9.4') {transitive=false}
-    xsl('xml-apis:xml-apis:2.0.2') {transitive=false}
 }
 
