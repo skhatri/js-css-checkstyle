@@ -20,3 +20,29 @@ the file to your local maven repository thats cool too.
     //required for xslt transformation
     xsl('net.sf.saxon:Saxon-HE:9.4') {transitive=false}
 
+Quality Check
+=============
+    //to perform csslint check and jslint check
+    gradle quality
+
+    //to perform csslint check
+    gradle css
+
+    //to perform jslint check
+    gradle js
+
+
+Sonar
+=====
+
+    //Download sonar-3.3.2 for e.g. from
+    http://www.sonarsource.org/downloads/
+
+    //Download javascript plugin
+    http://docs.codehaus.org/display/SONAR/JavaScript+Plugin
+
+    //sonar analyse the javascript project
+    mvn sonar:sonar -f sonar-js.xml
+
+
+
