@@ -1,0 +1,58 @@
+apply plugin:'eclipse'
+apply from:'dependencies.gradle'
+
+task jslintCheck << {
+    def lintJar = configurations.js.find{it.name ==~ /^jslint4java.*/}.absolutePath
+    project.ant {
+        java(jar:lintJar, fork:true,
+            output:"${rootProject.buildDir}/jslint-checkstyle.xml",
+            resultproperty: 'jslintfailed') {
+            arg(line:"src/main/javascript/csslint-rhino.js")
+            arg(line:'--report checkstyle')
+        }
+    }
+    if (ant.properties['jslintfailed'] as int != 0) {
+        println 'Warning:: JS Lint Error(s) exist.'
+        println "Checkstyle report available at \n${rootProject.buildDir}/jslint-checkstyle.xml"
+        checkstyleReport("${rootProject.buildDir}/jslint-checkstyle.xml", 
+			"${rootProject.buildDir}/jslint-report.html")
+    }
+}
+
+def checkstyleReport(infile, outfile) {
+	project.ant {
+          xslt(in:infile,
+               out:outfile,
+               style:"${rootProject.projectDir}/config/checkstyle/checkstyle.xsl") {
+                classpath {
+                  pathElement(path:configurations.xsl.asPath)
+                }
+          }
+        }
+}
+
+task csslintCheck << {
+    def rhinoJar = configurations.css.find{ it.absolutePath ==~ /.*rhino.*/ && it.name ==~ /^js.*/}.absolutePath
+    project.ant {
+        java(jar:rhinoJar, fork:true,
+            output:"${rootProject.buildDir}/csslint-checkstyle.xml",
+            resultproperty: 'csslintfailed') {
+            arg(line: "${rootProject.projectDir}/config/lint/csslint-rhino.js")
+            arg(line: "${rootProject.projectDir}/src/main/css")
+            arg(line: "--format=checkstyle-xml")
+        }
+    }
+    if (ant.properties['csslintfailed'] as int != 0) {
+        println 'Warning:: CSS Lint Error(s) exist.'
+        println "Checkstyle report available at \n${rootProject.buildDir}/csslint-checkstyle.xml"
+	checkstyleReport("${rootProject.buildDir}/csslint-checkstyle.xml",
+			"${rootProject.buildDir}/csslint-checkstyle.html")
+    }
+}
+
+task ini {
+	new File("${rootProject.projectDir}/build").mkdirs()  
+}
+
+task quality(dependsOn:['ini', 'jslintCheck', 'csslintCheck'])
+
