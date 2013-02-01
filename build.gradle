@@ -7,7 +7,7 @@ task jslintCheck << {
         java(jar:lintJar, fork:true,
             output:"${rootProject.buildDir}/jslint-checkstyle.xml",
             resultproperty: 'jslintfailed') {
-            arg(line:"src/main/javascript/csslint-rhino.js")
+            arg(line:"src/main/javascript/app.js src/main/javascript/csslint-rhino.js")
             arg(line:'--report checkstyle')
         }
     }
@@ -15,7 +15,7 @@ task jslintCheck << {
         println 'Warning:: JS Lint Error(s) exist.'
         println "Checkstyle report available at \n${rootProject.buildDir}/jslint-checkstyle.html"
         checkstyleReport("${rootProject.buildDir}/jslint-checkstyle.xml", 
-			"${rootProject.buildDir}/jslint-report.html")
+			"${rootProject.buildDir}/jslint-checkstyle.html")
     }
 }
 
