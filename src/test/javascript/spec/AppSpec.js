@@ -31,6 +31,33 @@ describe("App", function() {
       expect(app.context).toEqual('/jsstyle-css/');
   });
   
+  describe("ajax calls returns", function() {
+     var successFn, errorFn, ajax;
+     beforeEach(function () {
+        successFn = jasmine.createSpy("successFn");
+        errorFn = jasmine.createSpy("errorFn");
+        jQuery.ajax = spyOn(jQuery, "ajax").andCallFake(
+          function (options) {
+              if(/.*success.*/.test(options.url)) {
+                  options.success();
+              } else {
+                  options.error();
+              }
+          }
+        );
+     });
+     
+     it("success", function () {
+         app.ajax("success/url", successFn, errorFn);
+         expect(successFn).toHaveBeenCalled();
+     });
+     
+     it("error response", function () {
+         app.ajax("error/url", successFn, errorFn);
+         expect(errorFn).toHaveBeenCalled();
+     });
+  });
+  
   afterEach(function () {
      app = null;
   });

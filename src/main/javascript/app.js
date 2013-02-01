@@ -8,14 +8,16 @@ function App($) {
         ajax : function (urlToLoad, successFn, errorFn) {
             $.ajax({
                 url : urlToLoad,
-                cache : false
-            }).done(function (data) {
-                if (typeof successFn === 'function') {
-                    successFn(data);
-                }
-            }).error(function (data) {
-                if (typeof errorFn === 'function') {
-                    errorFn(data);
+                cache : false,
+                success: function (data) {
+                    if (typeof successFn === 'function') {
+                        successFn(data);
+                    }
+                },
+                error: function (data) {
+                    if (typeof errorFn === 'function') {
+                        errorFn(data);
+                    }
                 }
             });
         }
